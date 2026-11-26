@@ -1,0 +1,32 @@
+{
+  "title": "Polynomial-time verification of co-safety strict probability-raising causes",
+  "upload_type": "software",
+  "publication_date": "2026-11-27",
+  "version": "1.0.0",
+  "creators": [
+    {
+      "name": "DannyExperiments"
+    }
+  ],
+  "keywords": [
+    "Markov decision processes",
+    "strict probability raising",
+    "co-safety languages",
+    "probabilistic causality",
+    "Rabin automata",
+    "Bellman equations",
+    "model checking",
+    "first deviation"
+  ],
+  "description": "<p>This note resolves the co-safety strict probability-raising verification problem posed by Baier, Piribauer and Ziemek in Section 6.2.1 of Foundations of Probability-Raising Causality in Markov Decision Processes (LMCS 2024). For a finite rational MDP with known initial state, an explicit deterministic Rabin effect automaton and a supplied DFA accepting exactly the minimal good prefixes of the co-safety cause, condition (coS) is decidable in deterministic polynomial time. The full-state scheduler may use the entire history and randomize. The original work already verifies the Markov-chain subcase and handles global co-safety probability raising using a separate transformation.</p><p>Fix one designated cause word. After its first deviation, maximize the effect probability. After following the word to completion, minimize it. The histories allow these continuations to remain distinct after paths merge. The probability gap is then a sum over first deviations. Shifting the terminal payments by one gives bounded nonnegative rewards, so each possible terminal minimum generates a polynomial-size maximal-reachability problem over designated successors and physical actions.</p><p>A relaxed optimum above one can be truncated, extended to acceptance on support edges and perturbed to give the chosen word positive mass. An optimum equal to one requires a path of Bellman-tight edges with positive continuation. The exact equality test is necessary because a maximizing action might rule the conditioning word out entirely. The rotating example and offline explorer compare that false tie with a genuine equality violation.</p><p>The release contains the proof, LaTeX, bibliography, citation metadata, checksum ledger and evidence archive. The standard-library replay compares 6,600 exact layered trials and checks 51 one-step mixtures and 120 cyclic words. The result is for supplied-cause verification with explicit automata over physical states. Cause synthesis, partial observations and succinct automata are outside its scope. External peer review and formal verification are pending.</p><p>ChatGPT Astra 6.2 (OpenAI) generated the recovered proof and original replay under human direction. OpenAI Codex independently reviewed the mathematics. GPT-6.2 Sol (OpenAI) checked primary sources and prepared the manuscript, extended replay and illustration. DannyExperiments is the project citation identity.</p>",
+  "access_right": "open",
+  "license": "other-closed",
+  "notes": "All rights reserved. Publicly downloadable files are supplied without a repository-wide reuse license.",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/DannyExperiments/cosafety-probability-raising-verification/releases/tag/v1.0.0",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ]
+}

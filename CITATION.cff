@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "Cite this version of the research release."
+type: software
+title: "Polynomial-time verification of co-safety strict probability-raising causes"
+authors:
+  - name: "DannyExperiments"
+version: "1.0.0"
+date-released: 2026-11-27
+doi: "10.5281/zenodo.24572840"
+url: "https://doi.org/10.5281/zenodo.24572840"
+repository-code: "https://github.com/DannyExperiments/cosafety-probability-raising-verification"
+keywords:
+  - "Markov decision processes"
+  - "strict probability raising"
+  - "co-safety languages"
+  - "probabilistic causality"
+  - "Rabin automata"
+  - "Bellman equations"
+  - "model checking"
+  - "first deviation"
+preferred-citation:
+  type: software
+  title: "Polynomial-time verification of co-safety strict probability-raising causes"
+  authors:
+    - name: "DannyExperiments"
+  version: "1.0.0"
+  date-released: 2026-11-27
+  doi: "10.5281/zenodo.24572840"
+  url: "https://doi.org/10.5281/zenodo.24572840"
+  repository-code: "https://github.com/DannyExperiments/cosafety-probability-raising-verification"

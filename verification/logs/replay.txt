@@ -1,0 +1,3 @@
+6600 exact layered trials agree; violations: 5153
+Equality fixture: 51 exact one-step mixtures agree.
+Cyclic controls: 120 exact words include equality with and without a positive witness.

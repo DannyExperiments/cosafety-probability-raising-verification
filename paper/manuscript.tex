@@ -1,0 +1,98 @@
+\documentclass[11pt,a4paper]{amsart}
+\usepackage[hmargin=.83in,vmargin=.72in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Polynomial-time verification of co-safety strict probability-raising causes}}
+\urlstyle{same}
+\setlength{\emergencystretch}{2em}
+\DeclareMathSizes{8}{8}{8}{8}
+\DeclareMathSizes{9}{9}{8}{8}
+\DeclareMathSizes{10.95}{10.95}{8}{8}
+\renewcommand{\bibliofont}{\normalsize\raggedright}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\Prb}{\mathbb P}
+\title[Checking co-safety strict probability raising]{Polynomial-time verification of co-safety strict probability-raising causes}
+\date{}
+\begin{document}
+\begin{abstract}
+Baier, Piribauer and Ziemek ask how to check strict probability raising for a supplied co-safety cause in a Markov decision process. We give a polynomial-time test for their explicit finite-automaton inputs and full-state schedulers. A first-deviation decomposition reduces a putative violating word to an expected terminal bonus. Exact reachability optimization checks the relaxed threshold. At equality a positive-support path through Bellman-tight edges is necessary and sufficient. This extra test handles ties achievable only when the conditioning word has probability zero.
+\end{abstract}
+\maketitle
+
+\section{The input and question}
+Let $M$ be a finite Markov decision process with rational transition probabilities and a known initial state. Schedulers may randomize and use the full history. Let $E$ be a nonempty effect, given as a deterministic Rabin automaton on the alphabet of physical states. A supplied nonempty $\omega$-regular co-safety language $C$ is represented by an explicit DFA accepting exactly the minimal good prefixes of $C$. A good prefix forces membership in $C$ for every infinite extension. It is minimal if no proper prefix is good.
+
+The strict condition (coS) in Definition~6.11 of Baier, Piribauer and Ziemek \cite{bpz} requires
+\[
+     \Prb^\sigma(E\mid w)>\Prb^\sigma(E)
+\]
+for every minimal good prefix $w$ and every scheduler $\sigma$ with $\Prb^\sigma(w)>0$. Here $w$ denotes the cylinder of runs starting with that physical state word. In Section~6.2.1 the authors solve the Markov-chain case and discuss the failure of a state-set reduction for MDPs in Example~6.14. The verification problem is open there and in Ziemek's thesis \cite[Section~5.3, Remark~104]{ziemek}. Co-safety global probability raising compares with the entire event $C$; its reduction in Lemma~6.12 serves a different test. The theorem below uses the promised representation of Section~6.2.1 and checks Definition~6.11 for a given candidate.
+
+\begin{theorem}
+For these explicit inputs, deciding (coS) is in deterministic polynomial time in the combined input size, including the bits of the transition probabilities.
+\end{theorem}
+
+\section{The first-deviation formula}
+Form the state product of $M$ and both automata, feeding the initial physical state as the first letter. If the cause DFA accepts the empty word or the initial-state word, its cylinder has probability one and strict inequality fails. Otherwise let $x_0$ be the product initial state. The product follows unique automaton states along each physical state word. Reading any fixed finite prefix leaves a residual effect on this product. Write $m(x)$ and $v(x)$ for the minimum and maximum probabilities of the residual effect from $x$.
+
+Both values are rational and attained. For a Rabin objective, maximal effect probability is maximal reachability of states in winning end components. One can find them by computing end components after removing the forbidden set for each Rabin pair and retaining components meeting its recurrent target set. The complementary objective is Streett. Its winning end components are computed by the standard Streett pruning algorithm, followed by the same reachability reduction. In either case one reaches such a component and then follows an almost-sure winning continuation there. The minimum is one minus the corresponding maximum for the complement. These are polynomial-time quantitative MDP operations \cite[Theorems~11--12 and 14--15]{chatterjee}. All the effect calculations allow continuation in the underlying full product, without any restrictions from acceptance by the cause DFA.
+
+\begin{lemma}\label{lem:gap}
+Fix a feasible accepted word $w$ along $x_0,\ldots,x_k$, and fix the distributions over actions used conditional on each proper designated prefix. Suppose the resulting mass $q$ of $w$ is positive. Let $h=m(x_k)$, and let $b_{i,z}$ be the probability that the first departure from $w$ occurs at step $i$ with next product state $z$. The maximum achievable gap $\Prb(E)-\Prb(E\mid w)$ subject to those prefix distributions is
+\[
+                   \sum_{i,z} b_{i,z}\bigl(v(z)-h\bigr).
+\]
+\end{lemma}
+\begin{proof}
+The probability of the cylinder and the probabilities of its first-deviation parts are determined by the conditional action distributions at the designated prefixes. In particular those distributions can be taken as marginals of a scheduler that remembers its actions. The transition law conditional on the current state and action is fixed. The parts have total mass $q+\sum_{i,z}b_{i,z}=1$. The gap equals
+\[
+  \sum_{i,z} b_{i,z}\Prb(E\mid\text{first deviation }(i,z))
+       -(1-q)\Prb(E\mid w).
+\]
+The conditional terms are bounded above by $v(z)$ and below by $h$, respectively. One scheduler attains these bounds simultaneously. On the designated prefix it uses the prescribed action distributions. At a deviation it switches to a maximizing continuation from $z$, and at completion it switches to a minimizing continuation from $x_k$. The history distinguishes the cases even if the physical paths later merge. Substitution proves the formula.
+\end{proof}
+
+For a fixed threshold $h$, let the verifier pay bonus $1$ upon designated completion, and pay $1+v(z)-h$ at a first deviation to $z$. For a finite designated word with positive mass the expected bonus equals one plus the maximum gap in Lemma~\ref{lem:gap}. All bonuses lie in $[0,2]$.
+
+\section{A finite verifier for every possible word}
+Run the following construction for each distinct terminal value $h=m(x)$ on a product node accepting in the cause track. In the physical support graph an arc $x\to y$ requires positive transition probability under at least one action. Remove outgoing support arcs from all accepting nodes. Retain just the nodes and arcs that can reach an accepting endpoint with value $h$. A path in this graph cannot use another accepting prefix as an interior node. If there is no such path from $x_0$, this threshold can be skipped.
+
+At a nonterminal retained node $x$, a verifier action chooses an eligible designated successor $y$ and any physical action $a$ at $x$. It continues to $y$ on that outcome, and pays the indicated deviation bonus and absorbs on every other outcome, including outcomes leaving the retained graph. The chosen $a$ may give $y$ probability zero. This is a relaxation of positive mass along the designated cylinder. An eligible terminal pays $1$. Infinite survival receives zero. Replacing each bonus $b$ by an immediate probability $b/2$ of absorption at a success sink expresses the expected bonus optimum $U(x)$ as twice a maximal reachability probability. The optimum and comparisons use exact rationals.
+
+Every violating positive-mass word ending at value $h$ induces a finite sequence of verifier actions, randomized over physical actions as needed, with expected bonus at least one. Thus if $U(x_0)<1$ no violation occurs at this threshold. We handle the other two cases separately.
+
+\subsection*{A relaxed value above one}
+Choose a deterministic optimal reachability policy. Conditional on survival there is just one sequence of designated successors. Nonnegative bonuses imply that the expected collected bonus by some finite horizon exceeds one, by monotone convergence. If the designated sequence has not yet ended, extend the finite sequence along any retained support path to value $h$. This cannot lower the accrued expected bonus. In this finite construction, whenever the physical action gives its designated successor probability zero, mix a small positive amount of an action giving that successor positive probability. The expected bonus depends continuously on these finitely many mixtures. It remains above one for sufficiently small perturbations, and the cylinder now has positive mass. Lemma~\ref{lem:gap} gives a violating scheduler.
+
+\subsection*{A relaxed value equal to one}
+For each eligible pair $(x,y)$ retain the arc $x\to y$ only if some physical action $a$ satisfies the two tests
+\[
+ \begin{gathered}
+       P_a(y)>0,\\
+       U(x)=P_a(y)U(y)+\sum_{z\ne y}P_a(z)\bigl(1+v(z)-h\bigr).
+ \end{gathered}
+\]
+Probabilities in this display are from $x$. A violation occurs exactly when the retained graph reaches an accepting endpoint from $x_0$.
+
+For sufficiency, choose one qualifying action on each arc of such a path. The cylinder is positive and the local equalities telescope to expected bonus $U(x_0)=1$ because the terminal value is $1$. For necessity, suppose a positive-mass word violates. Its bonus is at least one and at most $U(x_0)=1$. The difference telescopes into local nonnegative Bellman deficits, each weighted by the positive probability of surviving to its designated step. The endpoint contributes zero. Every deficit must vanish, and if there is mixing, every action assigned positive mass at that step has zero deficit. Positive continuation means at least one such action also gives positive probability to the designated successor. All the corresponding arcs survive the equality test.
+
+\subsection*{Complexity}
+The product is polynomial in the input tables. There are at most as many thresholds as product nodes. Each verifier has polynomially many state, designated successor and action combinations. Its rewards inherit polynomial bit length from exact rational reachability values, and each solve is again a polynomial-size reachability linear program. Such rational values have polynomial bit length, for example by the determinant bounds for exact linear programming. Subsequent sign and equality decisions are exact rational comparisons. The graph reachability steps are polynomial. Reject on any witnessed violation criterion, and otherwise accept, including the vacuous case where the candidate has no feasible prefix. This proves the theorem.
+
+\section{Worked equality example}
+Let the only cause word be $st$, where $s$ is initial and $t$ has fixed effect probability $1/2$. Action $A$ leads certainly to $z$ with fixed effect probability $r$. Action $B$ leads to $t$ and a zero-effect state $f$ with probability $1/2$ each. Such continuation probabilities can be realized by transitions into absorbing effect and noneffect states. If $B$ is chosen with probability $\lambda$, the cylinder has mass $\lambda/2$, and
+\[
+        \Prb(E)=(1-\lambda)r+\lambda/4.
+\]
+For $r=1/2$, action $A$ gives relaxed value one with a zero-mass cylinder. Any $\lambda>0$ gives $\Prb(E)<1/2$. Hence the cause is strict even though $U(s)=1$. For $r=3/4$ the relaxed value is $5/4$, and $\lambda=1/2$ gives $\Prb(E)=1/2$ and cylinder mass $1/4$, witnessing failure at equality in the original inequality. The explorer also shows $r=1/4$, where both relaxed actions have value $3/4$.
+
+\section*{Replay and technical disclosure}
+Exact rational finite controls compare the verifier with a direct optimization over short accepted words and test the strict and equality cases, including repeated designated states. The general algorithm checks a supplied DFA for exactly the minimal good prefixes. Existence and synthesis of causes, partial observations and succinct automaton encodings lie outside the theorem. External peer review and formal verification are pending.
+
+ChatGPT Astra 6.2 (OpenAI) generated the recovered proof and original replay under human direction. OpenAI Codex independently reviewed the mathematics. GPT-6.2 Sol (OpenAI) checked primary sources and prepared the manuscript, extended replay and illustration. DannyExperiments is the project citation identity.
+
+\bibliographystyle{amsplain}
+\bibliography{references}
+\end{document}
