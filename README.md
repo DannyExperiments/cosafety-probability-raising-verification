@@ -1,5 +1,6 @@
 # Polynomial-time verification of co-safety strict probability-raising causes
 
+[![Lean · first-deviation envelope](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/lean.yml)
 [![Repository verification](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/verify.yml) [![Replay verification](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/replay.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/replay.yml) [![PDF build](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/pdf.yml/badge.svg?branch=main)](https://github.com/DannyExperiments/cosafety-probability-raising-verification/actions/workflows/pdf.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24572840.svg)](https://doi.org/10.5281/zenodo.24572840)
 
@@ -24,3 +25,7 @@ Baier, Piribauer and Ziemek give the Markov-chain check and identify the failure
 [Mathematical audit](audits/public_safe_reports/MATHEMATICAL_AUDIT.md) · [Literature audit](audits/public_safe_reports/LITERATURE_AUDIT.md) · [Scope](CLAIM_SCOPE_AND_LIMITATIONS.md) · [AI disclosure](AI_DISCLOSURE.md) · [Status](STATUS.md)
 
 [Release v1.0.0](https://github.com/DannyExperiments/cosafety-probability-raising-verification/releases/tag/v1.0.0) · [Version DOI](https://doi.org/10.5281/zenodo.24572840) · [Citation](CITATION.cff)
+
+## Lean verification
+
+For finitely many first-deviation parts with nonnegative masses and total probability one including the designated word, Lean proves the gap upper bound from the maximal continuation values and its exact equality at those values and the minimal designated value. The scheduler pasting and automaton algorithm remain in the paper. [Source and replay](formalization/README.md)
